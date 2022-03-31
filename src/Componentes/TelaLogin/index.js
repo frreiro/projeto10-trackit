@@ -1,15 +1,22 @@
 import {useState, useEffect} from "react"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import axios from "axios"
 import styled from "styled-components"
+import { useContext } from "react"
+
+import Context from "../../Context"
 import Logo from "../../assets/logo-trackit.png"
 
 export default function Login() {
+
+    const {userData, setUserData} = useContext(Context)
     
     const [dadosLogin, setDadosLogin] = useState({
         email: "",
         senha:""
     }) 
+
+    const navigate = useNavigate();
 
     const URL_LOGIN = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
 
@@ -21,7 +28,11 @@ export default function Login() {
             email: email,
             password: senha
         })
-        promise.then((resposta)=>console.log(resposta.data))
+        promise.then((resposta)=>{
+            const {data} = resposta
+            setUserData(data)
+            navigate("/habitos");
+        })
         promise.catch((error)=> console.log(error))
     }
 
@@ -49,6 +60,7 @@ const Div = styled.div`
     flex-direction: column;
     align-items:center;
     justify-content: center;
+    background-color: #FFFFFF;
 
     img{
         width: 154px;

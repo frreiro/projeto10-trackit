@@ -50,6 +50,7 @@ const Rodape = styled.footer`
     position: fixed;
     bottom: 0;
     left: 0;
+    z-index: 2;
 
     a{
         text-decoration: none

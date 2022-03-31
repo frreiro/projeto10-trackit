@@ -1,68 +1,91 @@
-import {useState} from "react"
+import axios from "axios";
+import { useState, useContext } from "react"
 
 import styled from 'styled-components'
 import Habito from "../Habito";
 import Habitos from "../Habitos";
+import Context from "../../../Context";
 
-export default function NovoHabito() {
+export default function NovoHabito({ esconder, atualizar }) {
+
+    const { userData } = useContext(Context);
 
     const [habito, setHabito] = useState({
         name: "",
         days: []
     })
-    
-    
-    function renderizarDias(){
-        const {days:dias} = habito;
+
+
+
+    function enviarHabito(e) { // botão cancelar tbm enviar essa requisição
+        e.preventDefault();
+        //post
+
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${userData.token}`
+            }
+        }
+        const URL_ADD_HABITO = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+        const promise = axios.post(URL_ADD_HABITO, habito, config);
+        promise.then((resposta) => {
+            setHabito({ name: "", days: [] });
+            esconder(false);
+            atualizar();
+        })
+        promise.catch((error) => {
+            console.log(error);
+
+        })
+
+    }
+
+
+    function renderizarDias() {
+        const { days: dias } = habito;
         const diasSemanas = ["D", "S", "T", "Q", "Q", "S", "S"];
         return diasSemanas.map((dia, indice) => {
-            return dias.includes(indice) 
-            ? <div key={indice+dia} className="ativado" onClick={()=>verificarClick(indice)} >{dia}</div>  
-            : <div key={indice+dia} onClick={()=>verificarClick(indice)}>{dia}</div>
+            return dias.includes(indice)
+                ? <div key={indice + dia} className="ativado" onClick={() => verificarClick(indice)} >{dia}</div>
+                : <div key={indice + dia} onClick={() => verificarClick(indice)}>{dia}</div>
         })
     }
-    
 
-    
-    function verificarClick(num){
-        const {days:dias} = habito;
-        if(dias.includes(num)){
+
+
+    function verificarClick(num) {
+        const { days: dias } = habito;
+        if (dias.includes(num)) {
             dias.splice(dias.indexOf(num), 1)
-            setHabito({...habito, days:[...dias]})
-        }else{
-            setHabito({...habito, days:[...dias, num] })
+            setHabito({ ...habito, days: [...dias] })
+        } else {
+            setHabito({ ...habito, days: [...dias, num] })
         }
     }
 
-    function mudarNome(e){
+    function mudarNome(e) {
         e.preventDefault();
-        setHabito({...habito, name: e.target.value})
+        setHabito({ ...habito, name: e.target.value })
     }
 
-    function enviarHabito(e){ // botão cancelar tbm enviar essa requisição
-        e.preventDefault();
-        console.log(habito)
-    }
-    
-    
 
     const semana = renderizarDias();
 
     return (
-        <Div>
-            <main>
-                <form onSubmit={enviarHabito}>               
-                <input placeholder='nome do hábito' type="text" value={habito.name} onChange={mudarNome}/>
-                <DiasDaSemana>
-                    {semana}
-                </DiasDaSemana>
-                <BotaoSection>
-                    <button className='cancelar'type="button">Cancelar</button>
-                    <button className='salvar' type="submit">Salvar</button>
-                </BotaoSection>
-                </form>
-            </main>
-        </Div>
+            <Div>
+                <main>
+                    <form onSubmit={enviarHabito}>
+                        <input placeholder='nome do hábito' type="text" value={habito.name} onChange={mudarNome} />
+                        <DiasDaSemana>
+                            {semana}
+                        </DiasDaSemana>
+                        <BotaoSection>
+                            <button className='cancelar' type="button" onClick={() => esconder(false)}>Cancelar</button>
+                            <button className='salvar' type="submit">Salvar</button>
+                        </BotaoSection>
+                    </form>
+                </main>
+            </Div>
     )
 }
 

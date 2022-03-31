@@ -1,24 +1,69 @@
-import { useState } from "react"
+import { useState, useContext, useEffect } from "react"
 import styled from "styled-components"
+import axios from "axios";
 
 import Habito from "../Habito";
 import NovoHabito from "../NovoHabito";
 import Footer from "../../Footer";
 import Header from "../../Header";
+import Context from "../../../Context";
 
 export default function Habitos() {
+
+    const { userData } = useContext(Context);
+    const {token, image} = userData;
+
     const [adicionar, setAdicionar] = useState(false);
+    const [habitos, setHabitos] = useState([])
+
+    function receberHabitos() {
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        const URL_HABITOS = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+        const promise = axios.get(URL_HABITOS, config)
+        promise.then((resposta) => {
+            const { data } = resposta
+            setHabitos(data)
+        })
+        promise.catch((erro) => console.log(erro))
+    }
+
+    function renderizarHabito() {
+        return habitos.map((habito) => {
+            const { name: nome, days: dias, id } = habito
+            return (
+                <Habito
+                    key={nome}
+                    token={userData.token}
+                    id={id}
+                    nome={nome}
+                    dias={dias}
+                    atualizar={()=>receberHabitos()} />
+            )
+        })
+    }
+
+
+
+
+
+
+    useEffect(receberHabitos, []);
+    const habito = renderizarHabito();
 
 
 
     function renderizarNovoHabito() {
-        return adicionar ? <NovoHabito /> : <></>
+        return adicionar ? <NovoHabito esconder={setAdicionar} atualizar={()=>receberHabitos()} /> : <></>
     }
     const novoHabito = renderizarNovoHabito();
 
     return (
         <>
-            <Header />
+            <Header foto={image} />
             <Main>
                 <AddHabito>
                     <h1>Meus hábitos</h1>
@@ -26,9 +71,9 @@ export default function Habitos() {
                 </AddHabito>
                 <HabitosSection>
                     {novoHabito}
-                    {/* <Habito/> */}
-                    {/* <h1 className="vazio">Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1> */}
-                    {/* <Habito/> */}
+                    {habitos.length === 0
+                        ? <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
+                        : habito}
                 </HabitosSection>
             </Main>
             <Footer />
@@ -39,10 +84,9 @@ export default function Habitos() {
 
 const Main = styled.main`
     width: 100vw;
-    height: calc(100vh - 140px);
     margin-top: 70px;
-    background-color: #F2F2F2;
     padding: 0 17px 0 17px;
+    margin-bottom: 80px;
 
     
 `;
@@ -79,8 +123,5 @@ const HabitosSection = styled.section`
         line-height: 22px;
     }
 
-    .vazio{
-        margin-top: 29px;
-    }
 `;
 
