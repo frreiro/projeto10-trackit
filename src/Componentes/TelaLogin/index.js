@@ -1,23 +1,34 @@
 import {useState, useEffect} from "react"
 import {Link} from "react-router-dom"
+import axios from "axios"
 import styled from "styled-components"
+import Logo from "../../assets/logo-trackit.png"
 
 export default function Login() {
     
     const [dadosLogin, setDadosLogin] = useState({
         email: "",
         senha:""
-    })
+    }) 
+
+    const URL_LOGIN = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
 
     function entrarNaConta(e) {
         e.preventDefault();
-        //fazer o get
-        console.log(dadosLogin)
+        const {email, senha} = dadosLogin;
+        //fazer o post
+        const promise = axios.post(URL_LOGIN, {
+            email: email,
+            password: senha
+        })
+        promise.then((resposta)=>console.log(resposta.data))
+        promise.catch((error)=> console.log(error))
     }
 
     return (
         <Div>
-            <img src="https://www.apaulista.org.br/wp-content/uploads/2021/02/youtube-logo.png" />
+            <img src={Logo} />
+            <Marca>TrackIt</Marca>
             <Formulario onSubmit={entrarNaConta}>
                 <input value={dadosLogin.email} type="email" placeholder="email" required onChange={(e) => setDadosLogin({...dadosLogin, email: e.target.value})}/>
                 <input value={dadosLogin.senha} type="password" placeholder="senha"  required onChange={(e) => setDadosLogin({...dadosLogin, senha: e.target.value})}/>
@@ -40,10 +51,16 @@ const Div = styled.div`
     justify-content: center;
 
     img{
-        width: 180px;
-        height: 180px;
+        width: 154px;
+        height: 100px;
     }
+`;
 
+const Marca = styled.h1`
+    font-size: 69px;
+    font-family: 'Playball';
+    color: var(--cor-azul-escuro);
+    margin-bottom: 32px;
 `;
 
 const Formulario = styled.form`
@@ -70,7 +87,7 @@ const Formulario = styled.form`
     button{
         width: 303px;
         height: 45px;
-        background-color: #52B6FF;
+        background-color: var(--cor-azul-claro);
         border-radius: 5px;
         border: none;
 
@@ -85,6 +102,6 @@ const Formulario = styled.form`
 
 const TextoCadastro = styled.h1`
     font-size: 13px;
-    color: #52B6FF;
+    color: var(--cor-azul-claro);
     text-decoration: underline;
 `;
