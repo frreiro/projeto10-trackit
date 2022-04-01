@@ -30,7 +30,7 @@ export default function Login() {
         })
         promise.then((resposta)=>{
             const {data} = resposta
-            setUserData(data)
+            setUserData({...userData, token: data.token, imagem: data.image});
             navigate("/habitos");
         })
         promise.catch((error)=> console.log(error))

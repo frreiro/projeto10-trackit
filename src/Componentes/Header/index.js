@@ -1,12 +1,16 @@
+import { useContext } from "react";
 import styled from "styled-components"
+import Context from "../../Context";
 
 
 
 export default function Header({foto}){
+    const {userData} = useContext(Context);
+    const {imagem} = userData;
     return (
         <Cabecalho>
             <h1>TrackIt</h1>
-            <img src={foto} />
+            <img src={imagem} />
         </Cabecalho>
     )
 }

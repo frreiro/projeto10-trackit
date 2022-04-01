@@ -7,10 +7,15 @@ import Context from "../../Context"
 import Login from "../TelaLogin"
 import Cadastro from "../TelaCadastro"
 import Habitos from "../TelaHabitos/Habitos"
+import Hoje from "../TelaHoje/Hoje"
 
 export default function App() {
 
-    const [userData, setUserData] = useState({})
+    const [userData, setUserData] = useState({
+        imagem: "",
+        token: "",
+        porcentagem: 0,
+    })
 
     return (
         <Context.Provider value={{userData, setUserData}}>
@@ -21,6 +26,8 @@ export default function App() {
                     <Route path="/" element={<Login />}></Route>
                     <Route path="/cadastro" element={<Cadastro />}></Route>
                     <Route path="/habitos" element={<Habitos />}></Route>
+                    <Route path="/hoje" element={<Hoje />}></Route>
+
 
                 </Routes>
             </BrowserRouter>

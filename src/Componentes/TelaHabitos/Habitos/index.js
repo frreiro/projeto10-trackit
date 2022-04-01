@@ -11,7 +11,8 @@ import Context from "../../../Context";
 export default function Habitos() {
 
     const { userData } = useContext(Context);
-    const {token, image} = userData;
+    const {token} = userData;
+
 
     const [adicionar, setAdicionar] = useState(false);
     const [habitos, setHabitos] = useState([])
@@ -46,16 +47,11 @@ export default function Habitos() {
         })
     }
 
-
-
-
-
-
     useEffect(receberHabitos, []);
     const habito = renderizarHabito();
-
-
-
+    
+    
+    
     function renderizarNovoHabito() {
         return adicionar ? <NovoHabito esconder={setAdicionar} atualizar={()=>receberHabitos()} /> : <></>
     }
@@ -63,7 +59,7 @@ export default function Habitos() {
 
     return (
         <>
-            <Header foto={image} />
+            <Header />
             <Main>
                 <AddHabito>
                     <h1>Meus hábitos</h1>
