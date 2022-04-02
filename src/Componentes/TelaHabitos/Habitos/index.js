@@ -1,6 +1,8 @@
 import { useState, useContext, useEffect } from "react"
 import styled from "styled-components"
 import axios from "axios";
+import { Rings } from "react-loader-spinner";
+
 
 import Habito from "../Habito";
 import NovoHabito from "../NovoHabito";
@@ -11,7 +13,7 @@ import Context from "../../../Context";
 export default function Habitos() {
 
     const { userData } = useContext(Context);
-    const {token} = userData;
+    const { token } = userData;
 
 
     const [adicionar, setAdicionar] = useState(false);
@@ -32,32 +34,33 @@ export default function Habitos() {
         promise.catch((erro) => console.log(erro))
     }
 
+    function renderizarNovoHabito() {
+        return adicionar ? <NovoHabito
+            esconder={setAdicionar}
+            atualizar={() => receberHabitos()}
+        /> : <></>
+    }
+
     function renderizarHabito() {
         return habitos.map((habito) => {
             const { name: nome, days: dias, id } = habito
             return (
                 <Habito
-                    key={nome}
+                    key={nome+id}
                     token={userData.token}
                     id={id}
                     nome={nome}
                     dias={dias}
-                    atualizar={()=>receberHabitos()} />
+                    atualizar={() => receberHabitos()} />
             )
         })
     }
 
+
     useEffect(receberHabitos, []);
     const habito = renderizarHabito();
-    
-    
-    
-    function renderizarNovoHabito() {
-        return adicionar ? <NovoHabito esconder={setAdicionar} atualizar={()=>receberHabitos()} /> : <></>
-    }
     const novoHabito = renderizarNovoHabito();
-
-    return (
+    const HTML =
         <>
             <Header />
             <Main>
@@ -74,7 +77,8 @@ export default function Habitos() {
             </Main>
             <Footer />
         </>
-    )
+
+    return habitos.length >= 0 ? HTML : <Carregando><Rings height="200" width="200" color="var(--cor-azul-escuro)" ariaLabel="loading" /></Carregando>;
 }
 
 
@@ -121,3 +125,10 @@ const HabitosSection = styled.section`
 
 `;
 
+const Carregando = styled.div`
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+
 import GlobalStyle from "../../assets/style"
 import ResetStyle from "../../assets/reset"
 import Context from "../../Context"

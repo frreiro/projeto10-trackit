@@ -1,6 +1,18 @@
 import { createGlobalStyle } from "styled-components"
 
 const GlobalStyle = createGlobalStyle`
+
+    .swal2-container{
+        font-family: 'Lexend Deca';
+        font-weight: 400;
+    }
+
+    .swal2-actions button{
+        font-family: 'Lexend Deca';
+        font-weight: 400;
+    }
+
+
     body{
         background: #F2F2F2;
 

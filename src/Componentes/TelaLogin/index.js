@@ -1,55 +1,110 @@
-import {useState, useEffect} from "react"
-import {Link, useNavigate} from "react-router-dom"
+import { useState, useEffect, useContext } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import styled from "styled-components"
-import { useContext } from "react"
+import { ThreeDots } from "react-loader-spinner";
+import Swal from "sweetalert2";
+
+
 
 import Context from "../../Context"
 import Logo from "../../assets/logo-trackit.png"
 
 export default function Login() {
 
-    const {userData, setUserData} = useContext(Context)
-    
-    const [dadosLogin, setDadosLogin] = useState({
-        email: "",
-        senha:""
-    }) 
+    const { userData, setUserData } = useContext(Context)
 
+
+
+    const [clicado, setClicado] = useState(false);
+    const [dadosLogin, setDadosLogin] = useState({ //FIXME: Retirar o email e senha
+        email: "abacaxi@uol.com",
+        senha: "123456"
+    })
     const navigate = useNavigate();
 
     const URL_LOGIN = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
 
+
     function entrarNaConta(e) {
         e.preventDefault();
-        const {email, senha} = dadosLogin;
+        setClicado(!clicado);
+        const { email, senha } = dadosLogin;
         //fazer o post
         const promise = axios.post(URL_LOGIN, {
             email: email,
             password: senha
         })
-        promise.then((resposta)=>{
-            const {data} = resposta
-            setUserData({...userData, token: data.token, imagem: data.image});
+        promise.then((resposta) => {
+            const { data } = resposta
+            setUserData({ ...userData, token: data.token, imagem: data.image });
             navigate("/habitos");
         })
-        promise.catch((error)=> console.log(error))
+        promise.catch((error) => {
+            tratarErro(error.request.status)
+        })
     }
 
-    return (
-        <Div>
-            <img src={Logo} />
-            <Marca>TrackIt</Marca>
-            <Formulario onSubmit={entrarNaConta}>
-                <input value={dadosLogin.email} type="email" placeholder="email" required onChange={(e) => setDadosLogin({...dadosLogin, email: e.target.value})}/>
-                <input value={dadosLogin.senha} type="password" placeholder="senha"  required onChange={(e) => setDadosLogin({...dadosLogin, senha: e.target.value})}/>
-                <button type="submit">Entrar</button>
-            </Formulario>
-            <Link to="/cadastro">
-            <TextoCadastro>Não tem uma conta? Cadastre-se!</TextoCadastro>
-            </Link>
 
-        </Div>
+    function tratarErro(status) {
+        Swal.fire({
+            width: '340px',
+            heightAuto: false,
+            allowEscapeKey: false,
+            returnFocus: false,
+            allowOutsideClick: false,
+            title: `${status === 401 ? "Usuário não encontrado" : "Erro"}`,
+            text: `${status === 401 ? "Cadastre-se de graça" : "Por favor, tente novamente"}`,
+            icon: "error",
+            confirmButtonText: "Voltar",
+            showCancelButton: true,
+            cancelButtonColor: 'var(--cor-azul-claro)',
+            confirmButtonColor: '#CFCFCF',
+            cancelButtonText: "Cadastrar-se"
+        }).then((result) => {
+            if (!result.value) {
+                navigate('/cadastro')
+            } else {
+                setClicado(false);
+            }
+        });
+    }
+
+    const carregar = <ThreeDots height="50" width="50" color="#FFFFFF" ariaLabel="loading" />
+    const isCarregando = clicado ? carregar : "Enviar";
+    const disableInput = clicado ? 'disable' : ""
+    const disableButton = clicado ? (e)=>e.preventDefault() : entrarNaConta;
+
+    return (
+        <>
+            <Div>
+                <img src={Logo} />
+                <Marca>TrackIt</Marca>
+                <Formulario onSubmit={disableButton} >
+                    <input
+                        value={dadosLogin.email}
+                        type="email"
+                        placeholder="email"
+                        required
+                        className={disableInput}
+                        readOnly={clicado}
+                        onChange={(e) => setDadosLogin({ ...dadosLogin, email: e.target.value })} />
+                    <input
+                        value={dadosLogin.senha}
+                        type="password"
+                        placeholder="senha"
+                        required
+                        className={disableInput}
+                        readOnly={clicado}
+                        onChange={(e) => setDadosLogin({ ...dadosLogin, senha: e.target.value })} />
+                    <button type="submit">{isCarregando}</button>
+                </Formulario>
+                <Link to="/cadastro">
+                    <TextoCadastro>Não tem uma conta? Cadastre-se!</TextoCadastro>
+                </Link>
+
+            </Div>
+        </>
     )
 }
 
@@ -65,6 +120,10 @@ const Div = styled.div`
     img{
         width: 154px;
         height: 100px;
+    }
+
+    a{
+        text-decoration: none;
     }
 `;
 
@@ -89,8 +148,15 @@ const Formulario = styled.form`
         outline:none;
         padding-left: 11px;
         margin-bottom: 6px;
+        font-size: 20px;
+        color: #126BA5;
 
         }
+    
+    .disable{
+        background-color:  #F2F2F2;
+        color: #AFAFAF ;
+    }
 
     input::placeholder{
         color: #DBDBDB;
@@ -106,7 +172,9 @@ const Formulario = styled.form`
         font-size: 20px;
         color: white;
 
-
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin-bottom: 25px;
     }
 
@@ -117,3 +185,4 @@ const TextoCadastro = styled.h1`
     color: var(--cor-azul-claro);
     text-decoration: underline;
 `;
+

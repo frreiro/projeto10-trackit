@@ -1,15 +1,15 @@
 import axios from "axios";
 import { useState, useContext } from "react"
+import { ThreeDots } from "react-loader-spinner";
+
 
 import styled from 'styled-components'
-import Habito from "../Habito";
-import Habitos from "../Habitos";
 import Context from "../../../Context";
 
 export default function NovoHabito({ esconder, atualizar }) {
 
     const { userData } = useContext(Context);
-
+    const [clicado, setClicado] = useState(false);
     const [habito, setHabito] = useState({
         name: "",
         days: []
@@ -20,7 +20,7 @@ export default function NovoHabito({ esconder, atualizar }) {
     function enviarHabito(e) { // botão cancelar tbm enviar essa requisição
         e.preventDefault();
         //post
-
+        setClicado(!clicado);
         const config = {
             headers: {
                 "Authorization": `Bearer ${userData.token}`
@@ -68,24 +68,29 @@ export default function NovoHabito({ esconder, atualizar }) {
         setHabito({ ...habito, name: e.target.value })
     }
 
-
     const semana = renderizarDias();
+    const carregar = <ThreeDots height="100" width="50" color="#FFFFFF" ariaLabel="loading" />
+    const isCarregando = clicado ? carregar : "Salvar";
+    const disableInput = clicado ? 'disable' : ""
+    const disableButton = clicado ? (e) => e.preventDefault() : enviarHabito;
+
 
     return (
-            <Div>
-                <main>
-                    <form onSubmit={enviarHabito}>
-                        <input placeholder='nome do hábito' type="text" value={habito.name} onChange={mudarNome} />
-                        <DiasDaSemana>
-                            {semana}
-                        </DiasDaSemana>
-                        <BotaoSection>
-                            <button className='cancelar' type="button" onClick={() => esconder(false)}>Cancelar</button>
-                            <button className='salvar' type="submit">Salvar</button>
-                        </BotaoSection>
-                    </form>
-                </main>
-            </Div>
+        <Div>
+            <main>
+                <form onSubmit={disableButton}>
+                    <input placeholder='nome do hábito' className={disableInput}
+                        readOnly={clicado} type="text" value={habito.name} onChange={mudarNome} />
+                    <DiasDaSemana>
+                        {semana}
+                    </DiasDaSemana>
+                    <BotaoSection>
+                        <button className='cancelar' type="button" onClick={() => esconder(false)}>Cancelar</button>
+                        <button className='salvar' type="submit">{isCarregando}</button>
+                    </BotaoSection>
+                </form>
+            </main>
+        </Div>
     )
 }
 
@@ -124,6 +129,11 @@ const Div = styled.div`
         
     }
 
+    .disable{
+        background-color:  #F2F2F2;
+        color: #AFAFAF ;
+    }
+
     input::placeholder{
         color: #DBDBDB;
         
@@ -135,6 +145,7 @@ const BotaoSection = styled.section`
     position: absolute;
     right: 16px;
     bottom: 15px;
+    display: flex;
 
     button{
         width: 84px;
@@ -142,19 +153,23 @@ const BotaoSection = styled.section`
         outline: none;
         border: none;
         border-radius: 4px;
+        font-size: 16px;
 
-        font-size: 16px
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
+
 
     .cancelar{
         background-color: #fff;
-        color: var(--cor-azul-claro)
+        color: var(--cor-azul-claro);
     }
 
     .salvar{
         background-color: var(--cor-azul-claro);
         color: #fff;
-        margin-left: 23px
+        margin-left: 23px;
     }
 `;
 
