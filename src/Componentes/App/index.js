@@ -9,6 +9,7 @@ import Login from "../TelaLogin"
 import Cadastro from "../TelaCadastro"
 import Habitos from "../TelaHabitos/Habitos"
 import Hoje from "../TelaHoje/Hoje"
+import Historico from "../TelaHistorico/Historico"
 
 export default function App() {
 
@@ -28,6 +29,8 @@ export default function App() {
                     <Route path="/cadastro" element={<Cadastro />}></Route>
                     <Route path="/habitos" element={<Habitos />}></Route>
                     <Route path="/hoje" element={<Hoje />}></Route>
+                    <Route path="/historico" element={<Historico />}></Route>
+
 
 
                 </Routes>

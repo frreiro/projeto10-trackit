@@ -17,7 +17,7 @@ export default function Habitos() {
 
 
     const [adicionar, setAdicionar] = useState(false);
-    const [habitos, setHabitos] = useState([])
+    const [habitos, setHabitos] = useState(null)
 
     function receberHabitos() {
         const config = {
@@ -42,11 +42,16 @@ export default function Habitos() {
     }
 
     function renderizarHabito() {
-        return habitos.map((habito) => {
+        return habitos !== null ? verificarItens() : ""
+    }
+    function verificarItens(){
+        return habitos.length === 0 
+        ? <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
+        : habitos.map((habito) => {
             const { name: nome, days: dias, id } = habito
             return (
                 <Habito
-                    key={nome+id}
+                    key={nome + id}
                     token={userData.token}
                     id={id}
                     nome={nome}
@@ -60,25 +65,25 @@ export default function Habitos() {
     useEffect(receberHabitos, []);
     const habito = renderizarHabito();
     const novoHabito = renderizarNovoHabito();
-    const HTML =
+    // const texto = habitos.length === 0 ? <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>: habito
+    const carregar = habitos !== null ? habito : <Carregando><Rings height="200" width="200" color="var(--cor-azul-escuro)" ariaLabel="loading" /></Carregando>;
+    return (
         <>
             <Header />
             <Main>
                 <AddHabito>
                     <h1>Meus hábitos</h1>
-                    <span className="material-icons" onClick={() => setAdicionar(!adicionar)}>add_box</span>
+                    <ion-icon onClick={() => setAdicionar(!adicionar)} name="add-circle"></ion-icon>
                 </AddHabito>
                 <HabitosSection>
                     {novoHabito}
-                    {habitos.length === 0
-                        ? <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
-                        : habito}
+                    {carregar}
                 </HabitosSection>
             </Main>
             <Footer />
         </>
+    )
 
-    return habitos.length >= 0 ? HTML : <Carregando><Rings height="200" width="200" color="var(--cor-azul-escuro)" ariaLabel="loading" /></Carregando>;
 }
 
 
@@ -105,12 +110,12 @@ const AddHabito = styled.section`
         color: var(--cor-azul-escuro);
     }
 
-    .material-icons{
-        font-family: 'Material Icons';
+    ion-icon{
         font-weight: normal;
         font-style: normal;
         font-size: 40px; 
         color: var(--cor-azul-claro);
+
     }
 `;
 
@@ -128,7 +133,16 @@ const HabitosSection = styled.section`
 const Carregando = styled.div`
     width: 100vw;
     height: 100vh;
+
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    top: 0;
+    z-index: 2;
+
     display: flex;
     justify-content: center;
     align-items: center;
+    
 `;
