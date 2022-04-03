@@ -10,14 +10,16 @@ import Footer from "../../Footer";
 import Header from "../../Header";
 import Context from "../../../Context";
 
+
 export default function Habitos() {
 
     const { userData } = useContext(Context);
-    const { token } = userData;
-
+    const { token} = userData;
 
     const [adicionar, setAdicionar] = useState(false);
     const [habitos, setHabitos] = useState(null)
+    
+
 
     function receberHabitos() {
         const config = {
@@ -33,6 +35,7 @@ export default function Habitos() {
         })
         promise.catch((erro) => console.log(erro))
     }
+
 
     function renderizarNovoHabito() {
         return adicionar ? <NovoHabito
@@ -61,11 +64,9 @@ export default function Habitos() {
         })
     }
 
-
     useEffect(receberHabitos, []);
     const habito = renderizarHabito();
     const novoHabito = renderizarNovoHabito();
-    // const texto = habitos.length === 0 ? <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>: habito
     const carregar = habitos !== null ? habito : <Carregando><Rings height="200" width="200" color="var(--cor-azul-escuro)" ariaLabel="loading" /></Carregando>;
     return (
         <>

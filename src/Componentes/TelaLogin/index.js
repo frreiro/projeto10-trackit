@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react"
+import { useState, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import styled from "styled-components"
@@ -78,7 +78,7 @@ export default function Login() {
     return (
         <>
             <Div>
-                <img src={Logo} />
+                <img src={Logo} alt="Logo"/>
                 <Marca>TrackIt</Marca>
                 <Formulario onSubmit={disableButton} >
                     <input

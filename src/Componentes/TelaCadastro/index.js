@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import styled from "styled-components"
@@ -43,7 +43,7 @@ export default function Cadastro() {
 
     return (
         <Div>
-            <img src={Logo} />
+            <img src={Logo} alt="Logo"/>
             <Marca>TrackIt</Marca>
             <Formulario onSubmit={enviarCadastro}>
                 <input type="email"className={disableInput} readOnly={clicado} placeholder="email" required onChange={(e) => setDadosCadastro({ ...dadosCadastro, email: e.target.value })} />

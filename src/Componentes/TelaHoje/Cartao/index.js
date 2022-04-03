@@ -8,8 +8,8 @@ import Context from '../../../Context';
 
 export default function Cartao({ id, nome, feito, sequenciaAtual, maiorSequencia, atualizarHabito }) {
 
-    const { userData } = useContext(Context);
-    const { token } = userData;
+    const { userData, setUserData } = useContext(Context);
+    const { token, atualizar } = userData;
 
     const [selecionado, setSelecionado] = useState(feito);
 
@@ -24,7 +24,7 @@ export default function Cartao({ id, nome, feito, sequenciaAtual, maiorSequencia
         }
         const promise = axios.post(URL, boolean, config);
         promise.then((response) => {
-            atualizarHabito();
+            setUserData({...userData, atualizar: !atualizar});
             console.log(response.status)
         })
         promise.catch((error) => console.log(error));

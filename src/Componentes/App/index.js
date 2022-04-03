@@ -16,8 +16,11 @@ export default function App() {
     const [userData, setUserData] = useState({
         imagem: "",
         token: "",
+        dados: [{}],
         porcentagem: 0,
+        atualizar: false
     })
+    console.log(userData)
 
     return (
         <Context.Provider value={{userData, setUserData}}>
@@ -30,9 +33,6 @@ export default function App() {
                     <Route path="/habitos" element={<Habitos />}></Route>
                     <Route path="/hoje" element={<Hoje />}></Route>
                     <Route path="/historico" element={<Historico />}></Route>
-
-
-
                 </Routes>
             </BrowserRouter>
         </Context.Provider >

@@ -1,20 +1,56 @@
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 import styled from "styled-components"
 import Context from "../../Context"
+import axios from 'axios';
 
 
 
 export default function Footer() {
 
-    const { userData } = useContext(Context);
-    const {porcentagem} = userData;
+    const { userData, setUserData } = useContext(Context);
+    const { porcentagem: percentual, token, atualizar } = userData;
 
-    
+    const [porcentagem, setPorcentagem] = useState(percentual)
+    const [ habitos, setHabitos] = useState([{}])
+
+    function receberHabitosHoje() {
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        const URL_HOJE = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
+        const promise = axios.get(URL_HOJE, config);
+        promise.then((response) => {
+            const { data } = response;
+            setUserData({ ...userData, dados: data });
+            // setHoje(data);
+            setHabitos(data);
+            // console.log(userData.dados)
+        })
+        promise.catch((error) => error);
+    }
+    useEffect(receberHabitosHoje, [atualizar])
+
+
+    function calcularPorcentagem() {
+        if (habitos !== undefined) {
+            const qntsFeitas = habitos.filter((objeto) => objeto.done === true).length;
+            const qntsTotal = habitos.length;
+            const percentual = Math.round(qntsFeitas * 100 / qntsTotal);
+            setPorcentagem(percentual)
+            setUserData({ ...userData, porcentagem: percentual });
+        }
+    }
+
+    useEffect(calcularPorcentagem, [habitos]);
+
+
     return (
         <Rodape >
             <Link to="/habitos">

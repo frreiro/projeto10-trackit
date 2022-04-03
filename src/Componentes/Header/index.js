@@ -10,7 +10,7 @@ export default function Header({foto}){
     return (
         <Cabecalho>
             <h1>TrackIt</h1>
-            <img src={imagem} />
+            <img src={imagem} alt="userImage"/>
         </Cabecalho>
     )
 }

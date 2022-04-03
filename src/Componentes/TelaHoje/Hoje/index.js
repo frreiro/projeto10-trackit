@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
-import axios from 'axios';
 
 
 import styled from "styled-components";
@@ -13,30 +12,16 @@ import Context from '../../../Context';
 
 export default function Hoje() {
 
-    const { userData, setUserData } = useContext(Context);
-    const { token, porcentagem: percentual } = userData;
+    const { userData } = useContext(Context);
+    const { porcentagem, dados: novosHabitos } = userData;
 
     const [habitos, setHabitos] = useState([{}])
-    const [porcentagem, setPorcentagem] = useState(percentual)
 
-    function receberHabitosHoje() {
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-        const URL_HOJE = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
-        const promise = axios.get(URL_HOJE, config);
-        promise.then((response) => {
-            const {data} = response;
-            console.log(data)
-            setHabitos(data);
-        })
-        promise.catch((error) => console.log(error));
+    function atualizar(){
+        setHabitos(novosHabitos);
     }
+    useEffect(atualizar,[])
 
-    useEffect(receberHabitosHoje,[])
-    useEffect(calcularPorcentagem,[habitos]);
 
     function formatarDiaDaSemana() {
         const diaBrasil = dayjs().locale("pt-br");
@@ -49,15 +34,6 @@ export default function Hoje() {
         const diaBrasil = dayjs().locale("pt-br");
         return diaBrasil.format('DD/MM')
     }
-
-    function calcularPorcentagem() {
-        const qntsFeitas = habitos.filter((objeto) => objeto.done === true).length;
-        const qntsTotal = habitos.length;
-        const percentual = Math.round(qntsFeitas * 100 / qntsTotal);
-        setPorcentagem(percentual)
-        setUserData({...userData, porcentagem: percentual});
-    }
-
 
     function renderizarPorcentagem() {
         return porcentagem > 0 
@@ -76,7 +52,7 @@ export default function Hoje() {
                 key={name + id}
                 sequenciaAtual={currentSequence}
                 maiorSequencia={highestSequence}
-                atualizarHabito={receberHabitosHoje}
+                // atualizarHabito={receberHabitosHoje}
             />
         });
     }
