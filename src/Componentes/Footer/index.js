@@ -29,9 +29,7 @@ export default function Footer() {
         promise.then((response) => {
             const { data } = response;
             setUserData({ ...userData, dados: data });
-            // setHoje(data);
             setHabitos(data);
-            // console.log(userData.dados)
         })
         promise.catch((error) => error);
     }
@@ -70,7 +68,9 @@ export default function Footer() {
                 <h1>Histórico</h1>
             </Link>
         </Rodape>)
+        
 }
+
 
 
 const ProgressBarStyles = {

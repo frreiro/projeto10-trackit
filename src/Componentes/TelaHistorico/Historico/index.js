@@ -1,11 +1,8 @@
-import Header from "../../Header"
-import Footer from "../../Footer"
 import styled from "styled-components";
 
 export default function Historico() {
     return (
         <>
-            <Header />
             <Main>
                 <section>
                     <h1>Historico</h1>
@@ -14,7 +11,6 @@ export default function Historico() {
                     <h1>Em breve você poderá ver o histórico dos seus hábitos aqui!</h1>
                 </article>
             </Main>
-            <Footer />
         </>
     )
 }

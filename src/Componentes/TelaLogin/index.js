@@ -1,4 +1,4 @@
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import styled from "styled-components"
@@ -14,6 +14,11 @@ export default function Login() {
 
     const { userData, setUserData } = useContext(Context)
 
+    function resetarToken() {
+        setUserData({ ...userData, token: "" })
+    }
+
+    useEffect(resetarToken,[])
 
 
     const [clicado, setClicado] = useState(false);
@@ -73,12 +78,12 @@ export default function Login() {
     const carregar = <ThreeDots height="50" width="50" color="#FFFFFF" ariaLabel="loading" />
     const isCarregando = clicado ? carregar : "Enviar";
     const disableInput = clicado ? 'disable' : ""
-    const disableButton = clicado ? (e)=>e.preventDefault() : entrarNaConta;
+    const disableButton = clicado ? (e) => e.preventDefault() : entrarNaConta;
 
     return (
         <>
             <Div>
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" />
                 <Marca>TrackIt</Marca>
                 <Formulario onSubmit={disableButton} >
                     <input

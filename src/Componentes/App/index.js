@@ -1,15 +1,23 @@
 import { useState } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
+
+import Context from "../../Context"
 import GlobalStyle from "../../assets/style"
 import ResetStyle from "../../assets/reset"
-import Context from "../../Context"
 
-import Login from "../TelaLogin"
-import Cadastro from "../TelaCadastro"
-import Habitos from "../TelaHabitos/Habitos"
-import Hoje from "../TelaHoje/Hoje"
-import Historico from "../TelaHistorico/Historico"
+import Login from "../../Componentes/TelaLogin"
+import Cadastro from "../../Componentes/TelaCadastro"
+import Habitos from "../../Componentes/TelaHabitos/Habitos"
+import Hoje from "../../Componentes/TelaHoje/Hoje"
+import Historico from "../../Componentes/TelaHistorico/Historico"
+
+import Header from "../../Componentes/Header";
+import Footer from "../../Componentes/Footer";
+
+
+import RotasLogin from "../../RotasLogin"
+import RotasApp from "../../RotasApp"
 
 export default function App() {
 
@@ -17,23 +25,26 @@ export default function App() {
         imagem: "",
         token: "",
         dados: [{}],
+        novoHabito: { name: "", days: [] },
         porcentagem: 0,
         atualizar: false
     })
-    console.log(userData)
-
     return (
-        <Context.Provider value={{userData, setUserData}}>
+        <Context.Provider value={{ userData, setUserData }}>
             <BrowserRouter>
                 <ResetStyle />
                 <GlobalStyle />
+                {userData.token !== ""  ? <Header />: <></>}
                 <Routes>
                     <Route path="/" element={<Login />}></Route>
                     <Route path="/cadastro" element={<Cadastro />}></Route>
+                    {/* {userData.token === "" ? <RotasLogin /> : <RotasApp />} */}
                     <Route path="/habitos" element={<Habitos />}></Route>
                     <Route path="/hoje" element={<Hoje />}></Route>
                     <Route path="/historico" element={<Historico />}></Route>
                 </Routes>
+                {userData.token !== ""  ? <Footer />: <></>}
+                
             </BrowserRouter>
         </Context.Provider >
     )

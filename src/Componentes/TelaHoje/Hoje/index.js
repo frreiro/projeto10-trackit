@@ -4,8 +4,6 @@ import 'dayjs/locale/pt-br';
 
 
 import styled from "styled-components";
-import Footer from "../../Footer";
-import Header from "../../Header";
 import Cartao from "../Cartao";
 import Context from '../../../Context';
 
@@ -52,7 +50,6 @@ export default function Hoje() {
                 key={name + id}
                 sequenciaAtual={currentSequence}
                 maiorSequencia={highestSequence}
-                // atualizarHabito={receberHabitosHoje}
             />
         });
     }
@@ -64,7 +61,6 @@ export default function Hoje() {
 
     return (
         <>
-            <Header />
             <Main>
                 <Informacao>
                     <h1>{diaDaSemana}, {dia}</h1>
@@ -74,7 +70,6 @@ export default function Hoje() {
                     {cartao}
                 </section>
             </Main>
-            <Footer porcentagem={porcentagem}/>
         </>
 
     )

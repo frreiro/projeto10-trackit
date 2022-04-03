@@ -1,11 +1,14 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Swal from "sweetalert2";
 
 import styled from "styled-components";
+import Context from "../../../Context";
 
 export default function Habito({ token, id, nome, dias, atualizar }) {
 
+    const { userData, setUserData} = useContext(Context);
+    const {atualizar: atualizarHoje} = userData;
     const [esconder, setEsconder] = useState(true)
 
     function deletarHabito() {
@@ -20,6 +23,8 @@ export default function Habito({ token, id, nome, dias, atualizar }) {
             console.log(resposta.status)
             setEsconder(false);
             atualizar();
+            setUserData({...userData, atualizar: !atualizarHoje})
+
         });
         promise.catch((error) => console.log(error.message));
     }

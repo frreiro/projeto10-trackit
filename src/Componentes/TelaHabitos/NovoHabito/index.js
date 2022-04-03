@@ -8,13 +8,22 @@ import Context from "../../../Context";
 
 export default function NovoHabito({ esconder, atualizar }) {
 
-    const { userData } = useContext(Context);
+    const { userData, setUserData } = useContext(Context);
+    const { atualizar: atualizarHoje, novoHabito } = userData;
     const [clicado, setClicado] = useState(false);
-    const [habito, setHabito] = useState({
-        name: "",
-        days: []
-    })
+    const [habito, setHabito] = useState(novoHabito)
 
+    function atualizarHabito() {
+        setUserData({ ...userData, novoHabito: habito })
+    }
+
+    function resetarHabito() {
+        setUserData({
+            ...userData,
+            atualizar: !atualizarHoje,
+            novoHabito: { name: "", days: [] }
+        });
+    }
 
 
     function enviarHabito(e) { // botão cancelar tbm enviar essa requisição
@@ -29,9 +38,10 @@ export default function NovoHabito({ esconder, atualizar }) {
         const URL_ADD_HABITO = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
         const promise = axios.post(URL_ADD_HABITO, habito, config);
         promise.then((resposta) => {
-            setHabito({ name: "", days: [] });
+            resetarHabito();
             esconder(false);
             atualizar();
+
         })
         promise.catch((error) => {
             console.log(error);
@@ -65,6 +75,7 @@ export default function NovoHabito({ esconder, atualizar }) {
 
     function mudarNome(e) {
         e.preventDefault();
+        // setUserData({...userData, novoHabito: {...novoHabito, nome: e.target.value}})
         setHabito({ ...habito, name: e.target.value })
     }
 
@@ -85,7 +96,11 @@ export default function NovoHabito({ esconder, atualizar }) {
                         {semana}
                     </DiasDaSemana>
                     <BotaoSection>
-                        <button className='cancelar' type="button" onClick={() => esconder(false)}>Cancelar</button>
+                        <button className='cancelar' type="button" onClick={() => {
+                            esconder(false)
+                            atualizarHabito();
+                        }
+                        }>Cancelar</button>
                         <button className='salvar' type="submit">{isCarregando}</button>
                     </BotaoSection>
                 </form>

@@ -33,7 +33,6 @@ export default function Cartao({ id, nome, feito, sequenciaAtual, maiorSequencia
 
 
     function mudarEstado() {
-        console.log(id)
         verificarEstado();
         setSelecionado(!selecionado);
 

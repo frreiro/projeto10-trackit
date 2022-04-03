@@ -6,8 +6,6 @@ import { Rings } from "react-loader-spinner";
 
 import Habito from "../Habito";
 import NovoHabito from "../NovoHabito";
-import Footer from "../../Footer";
-import Header from "../../Header";
 import Context from "../../../Context";
 
 
@@ -70,7 +68,6 @@ export default function Habitos() {
     const carregar = habitos !== null ? habito : <Carregando><Rings height="200" width="200" color="var(--cor-azul-escuro)" ariaLabel="loading" /></Carregando>;
     return (
         <>
-            <Header />
             <Main>
                 <AddHabito>
                     <h1>Meus hábitos</h1>
@@ -81,7 +78,6 @@ export default function Habitos() {
                     {carregar}
                 </HabitosSection>
             </Main>
-            <Footer />
         </>
     )
 

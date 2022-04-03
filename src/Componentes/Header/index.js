@@ -4,15 +4,18 @@ import Context from "../../Context";
 
 
 
-export default function Header({foto}){
+export default function Header(){
+
     const {userData} = useContext(Context);
     const {imagem} = userData;
+
     return (
         <Cabecalho>
             <h1>TrackIt</h1>
             <img src={imagem} alt="userImage"/>
         </Cabecalho>
     )
+
 }
 
 
