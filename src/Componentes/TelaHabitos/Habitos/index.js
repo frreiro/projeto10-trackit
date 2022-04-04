@@ -12,11 +12,10 @@ import Context from "../../../Context";
 export default function Habitos() {
 
     const { userData } = useContext(Context);
-    const { token} = userData;
+    const { token, habitos: habitoLocal } = userData;
 
     const [adicionar, setAdicionar] = useState(false);
-    const [habitos, setHabitos] = useState(null)
-    
+    const [habitos, setHabitos] = useState(habitoLocal)
 
 
     function receberHabitos() {
@@ -30,9 +29,18 @@ export default function Habitos() {
         promise.then((resposta) => {
             const { data } = resposta
             setHabitos(data)
+            salvarLocal(data)
         })
         promise.catch((erro) => console.log(erro))
     }
+
+    useEffect(receberHabitos, [userData]);
+
+    function salvarLocal(objetoHabitos) {
+        const data = JSON.stringify({ ...userData, habitos: objetoHabitos });
+        localStorage.setItem("dadosApp", data);
+    }
+
 
 
     function renderizarNovoHabito() {
@@ -43,26 +51,26 @@ export default function Habitos() {
     }
 
     function renderizarHabito() {
-        return habitos !== null ? verificarItens() : ""
+        return habitos !== null ? verificarItens() : <></>
     }
-    function verificarItens(){
-        return habitos.length === 0 
-        ? <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
-        : habitos.map((habito) => {
-            const { name: nome, days: dias, id } = habito
-            return (
-                <Habito
-                    key={nome + id}
-                    token={userData.token}
-                    id={id}
-                    nome={nome}
-                    dias={dias}
-                    atualizar={() => receberHabitos()} />
-            )
-        })
+    function verificarItens() {
+        return habitos.length === 0
+            ? <h1>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h1>
+            : habitos.map((habito) => {
+                const { name: nome, days: dias, id } = habito
+                return (
+                    <Habito
+                        key={nome + id}
+                        token={userData.token}
+                        id={id}
+                        nome={nome}
+                        dias={dias}
+                        atualizar={() => receberHabitos()} />
+                )
+            })
     }
 
-    useEffect(receberHabitos, []);
+
     const habito = renderizarHabito();
     const novoHabito = renderizarNovoHabito();
     const carregar = habitos !== null ? habito : <Carregando><Rings height="200" width="200" color="var(--cor-azul-escuro)" ariaLabel="loading" /></Carregando>;
@@ -118,6 +126,10 @@ const AddHabito = styled.section`
 
 
 const HabitosSection = styled.section`
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     h1{
         font-size: 18px;

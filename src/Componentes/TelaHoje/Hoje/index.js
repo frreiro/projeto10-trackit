@@ -13,12 +13,12 @@ export default function Hoje() {
     const { userData } = useContext(Context);
     const { porcentagem, dados: novosHabitos } = userData;
 
-    const [habitos, setHabitos] = useState([{}])
+    const [habitos, setHabitos] = useState(novosHabitos)
 
     function atualizar(){
         setHabitos(novosHabitos);
     }
-    useEffect(atualizar,[])
+    useEffect(atualizar,[novosHabitos])
 
 
     function formatarDiaDaSemana() {
@@ -39,8 +39,12 @@ export default function Hoje() {
         : <p>Nenhum hábito concluído ainda</p>;
     }
 
+    function renderizarCartao(){
+        return habitos !== null ? verificarHabito() : <></>
+    }
 
-    function renderizarCartao() {
+
+    function verificarHabito() {
         return habitos.map((habito) => {
             const { id, name, done, currentSequence, highestSequence } = habito;
             return <Cartao

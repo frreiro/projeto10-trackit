@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 
@@ -16,35 +16,49 @@ import Header from "../../Componentes/Header";
 import Footer from "../../Componentes/Footer";
 
 
-import RotasLogin from "../../RotasLogin"
-import RotasApp from "../../RotasApp"
 
 export default function App() {
 
     const [userData, setUserData] = useState({
         imagem: "",
         token: "",
-        dados: [{}],
+        dados: null,
+        habitos: null,
         novoHabito: { name: "", days: [] },
         porcentagem: 0,
         atualizar: false
     })
+
+
+
+    function receberLocal() {
+        if (window.location.pathname !== "/" && window.location.pathname !== "/cadastro"  ) {
+            console.log("recebendo dados...")
+            const data = localStorage.getItem("dadosApp");
+            const dados = JSON.parse(data);
+            setUserData(dados)
+        }
+    }
+
+    useEffect(receberLocal, [])
+
+
+
     return (
         <Context.Provider value={{ userData, setUserData }}>
             <BrowserRouter>
                 <ResetStyle />
                 <GlobalStyle />
-                {userData.token !== ""  ? <Header />: <></>}
+                {userData.token !== "" ? <Header /> : <></>}
                 <Routes>
                     <Route path="/" element={<Login />}></Route>
                     <Route path="/cadastro" element={<Cadastro />}></Route>
-                    {/* {userData.token === "" ? <RotasLogin /> : <RotasApp />} */}
                     <Route path="/habitos" element={<Habitos />}></Route>
                     <Route path="/hoje" element={<Hoje />}></Route>
                     <Route path="/historico" element={<Historico />}></Route>
                 </Routes>
-                {userData.token !== ""  ? <Footer />: <></>}
-                
+                {userData.token !== "" ? <Footer /> : <></>}
+
             </BrowserRouter>
         </Context.Provider >
     )

@@ -96,6 +96,7 @@ const Div = styled.div`
     align-items: center;
     position: relative;
 
+
     margin-bottom: 10px;
     
     main{

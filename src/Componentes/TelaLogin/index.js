@@ -15,16 +15,17 @@ export default function Login() {
     const { userData, setUserData } = useContext(Context)
 
     function resetarToken() {
-        setUserData({ ...userData, token: "" })
+        console.log("resentado")
+        localStorage.clear();
     }
 
     useEffect(resetarToken,[])
 
 
     const [clicado, setClicado] = useState(false);
-    const [dadosLogin, setDadosLogin] = useState({ //FIXME: Retirar o email e senha
-        email: "abacaxi@uol.com",
-        senha: "123456"
+    const [dadosLogin, setDadosLogin] = useState({ 
+        email: "",
+        senha: ""
     })
     const navigate = useNavigate();
 
@@ -42,6 +43,7 @@ export default function Login() {
         })
         promise.then((resposta) => {
             const { data } = resposta
+            
             setUserData({ ...userData, token: data.token, imagem: data.image });
             navigate("/habitos");
         })
