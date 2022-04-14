@@ -6,7 +6,7 @@
 ## 💻 Sobre o projeto
 
 
-O projeto é um aplicativo chamado TrackIt, um aplicativo com foco realização de hábitos. Nele você pode adicionar e remover hábitos a qualquer momento, ele irá te informar quais são os hábitos de hoje e seus hábitos futuros.
+O projeto é um aplicativo chamado TrackIt, um aplicativo com foco em realização de hábitos. Nele você pode adicionar e remover hábitos a qualquer momento, ele irá te informar quais são os hábitos de hoje e seus hábitos futuros.
 
 
 O projeto teve como requisito o uso de React e utilizou alguns conceitos como:
