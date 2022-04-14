@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+<div align="center">
+  <img width="200" height="200" src="https://user-images.githubusercontent.com/98192816/163481784-bfa37632-e5cc-444a-8385-1d51ed85b9a5.png" />
+</div>
+<h1 align="center">TrackIt</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 💻 Sobre o projeto
 
-## Available Scripts
 
-In the project directory, you can run:
+O projeto é um aplicativo chamado TrackIt, um aplicativo com foco realização de hábitos. Nele você pode adicionar e remover hábitos a qualquer momento, ele irá te informar quais são os hábitos de hoje e seus hábitos futuros.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+O projeto teve como requisito o uso de React e utilizou alguns conceitos como:
+  - React Router
+  - API
+  - Axios
+  - ContextAPI
+  - Styled Components
+  - LocalStorage
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+E algumas bibliotecas: 
+  - [React Loader Spinner](https://github.com/mhnpd/react-loader-spinner)
+  - [React Circular Progressbar](https://github.com/kevinsqi/react-circular-progressbar)
+  - [Dayjs](https://day.js.org/)
 
-### `npm test`
+## 🖥️ Web
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<p align="center">
+  <img width="400" height="268" alt="print-zaprecall
+o.com" src="https://user-images.githubusercontent.com/98192816/163480789-e8a32208-8c8d-4840-8b46-e66294f3c9f2.png">
+</p><br>
 
-### `npm run build`
+## 📱 Mobile
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<p align="center">
+    <img width="600" height="346" alt="print-trackit.com" src="https://user-images.githubusercontent.com/98192816/163480795-a509574e-50e5-473c-b886-9ce6c525380b.png">
+</p><br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠 Tecnologias
 
-### `npm run eject`
+As seguintes ferramentas foram usadas na construção do projeto:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  - HTML
+  - CSS
+  - Javascript
+  - [React](https://pt-br.reactjs.org/)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🎨 Deploy
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ O deploy do projeto pode ser econtrado no seguinte link: 
+  
+  <a href="https://projeto10-trackit-laxotrtbp-frreiro.vercel.app/">
+  <img alt="deploy-site" src="https://img.shields.io/badge/Link%20Deploy%20-Site-%2304D361">
+</a>
